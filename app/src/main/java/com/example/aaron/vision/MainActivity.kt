@@ -15,15 +15,9 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.services.vision.v1.Vision
 import java.util.*
-import java.nio.ByteBuffer
-import android.R.raw
 import android.os.AsyncTask
-import android.os.Message
-import com.google.api.client.util.IOUtils
 import com.google.api.services.vision.v1.model.*
-//import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion.User
 import android.util.JsonReader
-import com.google.api.client.json.JsonToken
 import java.io.*
 
 
@@ -62,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 null)
         //the following uses my assigned API-key
         visionBuilder.setVisionRequestInitializer(
-                VisionRequestInitializer(API_KEY))
+                VisionRequestInitializer(API_KEY ))
         vision = visionBuilder.build()
     }
 
@@ -153,7 +147,17 @@ class MainActivity : AppCompatActivity() {
      * @param msg the String to write
      */
     private fun setDescription(msg:String) {
+        var cat = msg.contains("cat",true)
+        var dog = msg.contains("dog",true)
+        if(cat and dog){
+            result.setText(R.string.both)
+        }else if (cat){
+            result.setText(R.string.cat)
+        }else if(dog){
+            result.setText(R.string.dog)
+        }
         description.text = msg
+
     }
 
     /**
@@ -264,22 +268,17 @@ class MainActivity : AppCompatActivity() {
     @Throws(IOException::class)
     fun readMessage(reader: JsonReader): String {
         var desc: String = ""
-        var mid: String = ""
         var score: Double = 0.0
-        var topicality: Double = 0.0
 
 
         reader.beginObject()
+
         while (reader.hasNext()) {
             val name = reader.nextName()
             if (name == "description") {
                 desc = reader.nextString()
-            } else if (name == "mid") {
-                mid = reader.nextString()
             } else if (name == "score") {
                 score = reader.nextDouble()
-            } else if (name == "topicality") {
-                topicality = reader.nextDouble()
             } else {
                 reader.skipValue()
             }
@@ -293,7 +292,7 @@ class MainActivity : AppCompatActivity() {
         private const val GALLERY = 7734
         private const val IMAGE_KEY = "TheImage"
         private const val GOAL_SIZE = 400       //good image width size for quick response from Google
-        private const val API_KEY = //your API Key should be placed here
+        private const val API_KEY = "AIzaSyBwSd4NIfVXtAB6gz8-dQK0UpH-Lq9nag8" //your API Key should be placed here
     }
 
 }

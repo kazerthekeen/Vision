@@ -3,4 +3,7 @@
     <string name="retrieve">1. Get Image</string>
     <string name="decode">2. Label</string>
     <string name="unknown">-- Unknown --</string>
+    <string name="cat">That\'s a cute cat!</string>
+    <string name="dog">What a good dog!</string>
+    <string name="both">They are a cute couple!</string>
 </resources>
